@@ -1,5 +1,5 @@
 <% unless signed_in? %>
-  <h2>Sign in first to explore the provider's API</h2>
+  <h2>Sign in first to explore the hitobito API</h2>
 
   <p>
     <%= link_to "Sign in with hitobito", user_doorkeeper_omniauth_authorize_path, class: "btn btn-primary" %>
@@ -8,11 +8,11 @@
   <h2>Explore the api</h2>
 
   <p>
-    <%= link_to "My Credentials", explore_api_path('/oauth/profile', format: :json), class: "btn btn-primary data-explore" %>
+    <%= link_to "My Profile", explore_api_path('/oauth/profile', format: :json), class: "btn btn-primary data-explore" %>
     <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-primary" %>
   </p>
 
   <p>You are logged in as <%= current_user.email %></p>
 
-  <p><pre id="display-json">Select one of the api methods above</pre></p>
+  <p><pre id="display-json"></pre></p>
 <% end %>
