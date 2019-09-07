@@ -1,0 +1,40 @@
+version: '3.5'
+services:
+
+  db:
+    image: postgres:alpine
+    volumes:
+      - ./tmp/docker/db/data:/var/lib/postgresql/data
+
+  tls:
+    image: esplo/docker-local-ssl-termination-proxy
+    environment:
+      HOST_IP: 192.168.44.104
+      PORT: 3001
+    ports:
+      - 3000:443
+
+
+  app:
+    build: .
+    environment:
+      #      DATABASE_URL: postgresql://postgres@db/app
+      RAILS_ENV: development
+      DOORKEEPER_APP_ID: "fec5519765de7f30c9017b46697bcb4071846e84374254287087f59869b97eca"
+      DOORKEEPER_APP_SECRET: "2e1a8ef6676e3b9a13a75a7e6ae55879a02b8a5194af010dd8af0eb1a2ca0957"
+      DOORKEEPER_APP_URL: "https://pbs.puzzle.ch/"
+      BUNDLE_PATH: "/usr/local/bundle"
+    depends_on:
+      - tls
+      #- db
+    volumes:
+      - .:/usr/src/app
+      - ./tmp/db_data:/usr/src/app/db_data
+      # - node_modules:/usr/src/app/node_modules
+      - bundle:/usr/local/bundle/
+    ports:
+      - 3001:3000
+
+volumes:
+  bundle:
+  node_modules:
