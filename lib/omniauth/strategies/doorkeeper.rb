@@ -18,7 +18,7 @@ module OmniAuth
       end
 
       def raw_info
-        @raw_info ||= access_token.get("/api/v1/me.json").parsed
+        @raw_info ||= access_token.get("/oauth/profile.json").parsed
       end
     end
   end
